@@ -117,8 +117,8 @@ void populateMatrix(int vertices){
     int value, valid, a, b, temp;
     for(int i = 0; i<vertices; i++){
 	for(int j = 0; j<vertices; j++){
-	    valid = 1;
-	    while (valid == 1){
+	    valid = 1; //reset valid
+	    while (valid == 1){ //check to make sure input is pos. int.
 		cin>>value;
 		if (cin.fail() || vertices<0 || vertices>100){
 		    cin.clear();
@@ -127,15 +127,15 @@ void populateMatrix(int vertices){
 		    valid = 1;
 		}  
 		else{
-		    original[i][j] = value;
+		    original[i][j] = value; //if it's not, go through the loop again.
 		    valid = 0;
 		}
 	    }
 	}
     }
-    printMatrix(original,vertices, 1);
+    printMatrix(original,vertices, 1); //print to check matrix.
     cout<<"What two points are you trying to find a path between?  Please enter them as integers:  ";
-    cin>>a;
+    cin>>a; //should probably check these too.  
     cin>>b;
     if (a>b){
 	temp = a;
@@ -145,11 +145,14 @@ void populateMatrix(int vertices){
     dijkstraAlgorithm(original, vertices, a, b);
 }
 
+/****************************************
+ **Function description: Find the vertex with the lowest total, in order to make it the new 'point a' in the dijkstra algorithm.  Iterate through the second column of the result matrix and check whether each is lower than the last.
+ **************************************/
 int findLowest(int **resultMatrix, int vertices){
     int lowestNode = 0;
     int beginning = resultMatrix[0][1];
     for(int j = 0; j<vertices; j++){
-	if ((beginning>resultMatrix[j][1] && resultMatrix[j][1]>0 && resultMatrix[j][1]<100) || (beginning == 0)){
+	if ((beginning>resultMatrix[j][1] && resultMatrix[j][1]>0 && resultMatrix[j][1]<100) || (beginning == 0)){ 
 	    beginning = resultMatrix[j][1];
 	    lowestNode = j;
 	}
@@ -157,6 +160,9 @@ int findLowest(int **resultMatrix, int vertices){
     return lowestNode;
 }
 
+/**************************************
+ **Function description: Implement the algorithm!
+ *************************************/
 void dijkstraAlgorithm(int **original, int vertices, int a, int b){
     int originalA = a;
     int **resultMatrix = constructMatrix(vertices, 0); 
@@ -179,7 +185,9 @@ void dijkstraAlgorithm(int **original, int vertices, int a, int b){
 	    }
 	}
 	int newA = findLowest(resultMatrix, vertices);
-	a = resultMatrix[newA][0];
+	cout<<"NEWA "<<newA<<endl;
+	a = resultMatrix[newA][0]+1;
+	cout<<"result"<<resultMatrix[newA][0]<<endl;
 	printMatrix(resultMatrix, vertices, 0);
     }
     cout<<"The shortest path between "<<originalA<<" and "<<b<<" is "<<resultMatrix[b-1][1]<<endl;
