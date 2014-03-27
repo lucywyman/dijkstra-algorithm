@@ -1,23 +1,3 @@
-/*#include<cmath>
-#include<iostream>
-#include<string>
-#include<cstdlib>
-
-using namespace std;
-
-int getDimensions();
-
-int** constructMatrix(int vertices, string original);
-
-void printMatrix(int **matrix, int vertices, int original);
-
-void populateMatrix(int vertices);
-
-int findLowest(int **resultMatrix, int vertices);
-
-void dijkstraAlgorithm(int **matrix, int vertices, int a, int b);
-*/
-
 #include "algorithm.hpp"
 #include<cmath>
 #include<iostream>
@@ -90,13 +70,13 @@ void printMatrix(int **matrix, int vertices, int original){
 	cout<<"The matrix currently looks like: "<<endl;
 	cout<<"    ";
 	for (int k = 0; k<vertices; k++)
-	    cout<<k+1<<" ";
+	    cout<<k<<" ";
 	cout<<endl<<"    ";
 	for (int k = 0; k<vertices; k++)
 	    cout<<"- ";
 	cout<<endl;
 	for(int i = 0; i<vertices; i++){
-	    cout<<i+1<<" | ";
+	    cout<<i<<" | ";
 	    for(int j = 0; j<vertices; j++){
 		cout<<matrix[i][j]<<" ";
 	    }
@@ -179,31 +159,31 @@ void dijkstraAlgorithm(int **original, int vertices, int a, int b){
     //Construct and populate result matrix.  This should be a separate function.
     int **resultMatrix = constructMatrix(vertices, 0); 
     for(int k = 0; k<vertices; k++){ 
-	resultMatrix[k][0] = k+1;
+	resultMatrix[k][0] = k;
 	resultMatrix[k][1] = 101;
     }
-    resultMatrix[a-1][0] = a;
-    resultMatrix[a-1][1] = 0;
+    resultMatrix[a][0] = a;
+    resultMatrix[a][1] = 0;
     printMatrix(resultMatrix, vertices, 0);
     //now start the algorithm!
     while (a!=b){  
 	for(int j = 0; j<vertices; j++){
-	    if (original[a-1][j]!=0){ //if there's an edge between verticeswhere a is the starting point and j is the second point
+	    if (original[a][j]!=0){ //if there's an edge between verticeswhere a is the starting point and j is the second point
 		if (resultMatrix[j][1] == 101) //reset "high" to 0.
 		    resultMatrix[j][1] = 0;
-		int newTotal = resultMatrix[a][1]+original[a-1][j]; //add edge weight to 'total' associated with vertex.
-		cout<<"Old total"<<resultMatrix[a][1]<<"Edge weight"<<original[a-1][j]<<endl;
+		int newTotal = resultMatrix[a][1]+original[a][j]; //add edge weight to 'total' associated with vertex.
+		cout<<"Old total"<<resultMatrix[a][1]<<"Edge weight"<<original[a][j]<<endl;
 		if (newTotal<resultMatrix[j][1] || resultMatrix[j][1]==0)
 		    resultMatrix[j][1] = newTotal;
 	    }
 	}
 	int newA = findLowest(resultMatrix, vertices);
 	cout<<"NEWA "<<newA<<endl;
-	a = resultMatrix[newA][0]+1;
+	a = resultMatrix[newA][0];
 	cout<<"result"<<resultMatrix[newA][0]<<endl;
 	printMatrix(resultMatrix, vertices, 0);
     }
-    cout<<"The shortest path between "<<originalA<<" and "<<b<<" is "<<resultMatrix[b-1][1]<<endl;
+    cout<<"The shortest path between "<<originalA<<" and "<<b<<" is "<<resultMatrix[b][1]<<endl;
 }
 
 
