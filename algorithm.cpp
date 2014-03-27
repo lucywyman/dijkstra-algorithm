@@ -1,4 +1,4 @@
-#include<cmath>
+/*#include<cmath>
 #include<iostream>
 #include<string>
 #include<cstdlib>
@@ -16,12 +16,22 @@ void populateMatrix(int vertices);
 int findLowest(int **resultMatrix, int vertices);
 
 void dijkstraAlgorithm(int **matrix, int vertices, int a, int b);
+*/
+
+#include "algorithm.hpp"
+#include<cmath>
+#include<iostream>
+#include<string>
+#include<cstdlib>
+
+using namespace std;
 
 int main(){
     int vertices = getDimensions();
     populateMatrix(vertices);
     return 0;
 }
+
 
 /*********************************
  ** Function description: Get the dimensions of the graph's matrix from 
@@ -152,7 +162,8 @@ int findLowest(int **resultMatrix, int vertices){
     int lowestNode = 0;
     int beginning = resultMatrix[0][1];
     for(int j = 0; j<vertices; j++){
-	if ((beginning>resultMatrix[j][1] && resultMatrix[j][1]>0 && resultMatrix[j][1]<100) || (beginning == 0)){ 
+	if ((beginning>resultMatrix[j][1] && resultMatrix[j][1]>0) || (beginning == 0)){
+	   cout<<"BEGINNING"<<resultMatrix[j][1]; 
 	    beginning = resultMatrix[j][1];
 	    lowestNode = j;
 	}
@@ -165,6 +176,7 @@ int findLowest(int **resultMatrix, int vertices){
  *************************************/
 void dijkstraAlgorithm(int **original, int vertices, int a, int b){
     int originalA = a;
+    //Construct and populate result matrix.  This should be a separate function.
     int **resultMatrix = constructMatrix(vertices, 0); 
     for(int k = 0; k<vertices; k++){ 
 	resultMatrix[k][0] = k+1;
@@ -180,6 +192,7 @@ void dijkstraAlgorithm(int **original, int vertices, int a, int b){
 		if (resultMatrix[j][1] == 101) //reset "high" to 0.
 		    resultMatrix[j][1] = 0;
 		int newTotal = resultMatrix[a][1]+original[a-1][j]; //add edge weight to 'total' associated with vertex.
+		cout<<"Old total"<<resultMatrix[a][1]<<"Edge weight"<<original[a-1][j]<<endl;
 		if (newTotal<resultMatrix[j][1] || resultMatrix[j][1]==0)
 		    resultMatrix[j][1] = newTotal;
 	    }
