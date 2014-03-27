@@ -160,7 +160,7 @@ void dijkstraAlgorithm(int **original, int vertices, int a, int b){
     int **resultMatrix = constructMatrix(vertices, 0); 
     for(int k = 0; k<vertices; k++){ 
 	resultMatrix[k][0] = k;
-	resultMatrix[k][1] = 101;
+	resultMatrix[k][1] = 10001;
     }
     resultMatrix[a][0] = a;
     resultMatrix[a][1] = 0;
@@ -169,7 +169,7 @@ void dijkstraAlgorithm(int **original, int vertices, int a, int b){
     while (a!=b){  
 	for(int j = 0; j<vertices; j++){
 	    if (original[a][j]!=0){ //if there's an edge between verticeswhere a is the starting point and j is the second point
-		if (resultMatrix[j][1] == 101) //reset "high" to 0.
+		if (resultMatrix[j][1] == 10001) //reset "high" to 0.
 		    resultMatrix[j][1] = 0;
 		int newTotal = resultMatrix[a][1]+original[a][j]; //add edge weight to 'total' associated with vertex.
 		cout<<"Old total"<<resultMatrix[a][1]<<"Edge weight"<<original[a][j]<<endl;
@@ -177,6 +177,7 @@ void dijkstraAlgorithm(int **original, int vertices, int a, int b){
 		    resultMatrix[j][1] = newTotal;
 	    }
 	}
+	resultMatrix[a][1] = 1000;
 	int newA = findLowest(resultMatrix, vertices);
 	cout<<"NEWA "<<newA<<endl;
 	a = resultMatrix[newA][0];
